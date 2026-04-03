@@ -1,0 +1,13 @@
+import { Request } from 'express';
+
+export type AdminRequestContext = {
+    id: number;
+    clerkUserId?: string;
+    email: string;
+    name: string;
+    isActive: boolean;
+};
+
+export type AuthenticatedRequest = Request & {
+    admin?: AdminRequestContext;
+};
