@@ -5,11 +5,9 @@ dotenv.config();
 
 const envSchema = z.object({
     PORT: z.string().default('5000').transform(Number),
-    NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
     DATABASE_URL: z.string().min(1, 'DATABASE_URL is required'),
     REDIS_URL: z.string().optional(),
     CLERK_SECRET_KEY: z.string().optional().default(''),
-    CLERK_PUBLISHABLE_KEY: z.string().optional().default(''),
     ADMIN_JWT_SECRET: z.string().default('envision-commander-secret-2026'),
     FRONTEND_URL: z.string().url('FRONTEND_URL must be a valid URL.').default('http://localhost:3000'),
 });

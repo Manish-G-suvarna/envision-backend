@@ -45,30 +45,30 @@ model Department {
 }
 
 model Event {
-  id            Int               @id @default(autoincrement())
+  id            Int                 @id @default(autoincrement())
   department_id Int
   event_name    String
   japanese_name String?
   description   String?
   overview      String?
-  fee           Decimal           @default(100.00) @db.Decimal(10, 2)
+  fee           Decimal             @default(100.00) @db.Decimal(10, 2)
   event_type    EventType
-  is_team_event Boolean           @default(false)
-  team_min_size Int?
-  team_max_size Int?
-  is_mega_event Boolean?          @default(false)
+  is_mega_event Boolean?            @default(false)
   image_url     String?
   day           Int?
   time          String?
   venue         String?
-  status        EventStatus       @default(OPEN)
-  created_at    DateTime          @default(now())
-  department    Department        @relation(fields: [department_id], references: [id], onDelete: Cascade)
+  status        EventStatus         @default(OPEN)
+  created_at    DateTime            @default(now())
+  is_team_event Boolean             @default(false)
+  team_max_size Int?
+  team_min_size Int?
+  department    Department          @relation(fields: [department_id], references: [id], onDelete: Cascade)
   criteria      JudgingCriteria[]
   participants  Participant[]
+  registrations RegistrationEvent[]
   rounds        Round[]
   rules         Rule[]
-  registrations RegistrationEvent[]
 }
 
 model Rule {
@@ -111,23 +111,23 @@ model Participant {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  clerkId      String   @unique
-  email        String   @unique
-  name         String
-  college      String
-  branch       String?
-  year         String?
-  phone        String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  department   String?
-  id_proof_url String?
-  is_onboarded Boolean  @default(false)
-  usn          String?  @unique
-  env_id       String?  @unique
-  gender       String?
-  degree       String?
+  id            Int            @id @default(autoincrement())
+  clerkId       String         @unique
+  email         String         @unique
+  name          String
+  college       String
+  branch        String?
+  year          String?
+  phone         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  department    String?
+  id_proof_url  String?
+  is_onboarded  Boolean        @default(false)
+  usn           String?        @unique
+  env_id        String?        @unique
+  degree        String?
+  gender        String?
   registrations Registration[]
 }
 
@@ -135,7 +135,7 @@ model Registration {
   id             Int                 @id @default(autoincrement())
   user_id        Int
   total_amount   Decimal             @db.Decimal(10, 2)
-  payment_status String              @default("pending") // pending, completed, rejected
+  payment_status String              @default("pending")
   utr_id         String?             @unique
   created_at     DateTime            @default(now())
   updated_at     DateTime            @updatedAt
@@ -148,17 +148,17 @@ model RegistrationEvent {
   registration_id Int
   event_id        Int
   team_name       String?
-  registration    Registration         @relation(fields: [registration_id], references: [id], onDelete: Cascade)
   event           Event                @relation(fields: [event_id], references: [id])
+  registration    Registration         @relation(fields: [registration_id], references: [id], onDelete: Cascade)
   members         RegistrationMember[]
 }
 
 model RegistrationMember {
   id                    Int               @id @default(autoincrement())
   registration_event_id Int
-  user_id               Int?              // Optional if member is not yet registered in Envision
-  env_id                String            // Member's ENV ID
-  name                  String            // Member's Name (cached from lookup)
+  user_id               Int?
+  env_id                String
+  name                  String
   is_leader             Boolean           @default(false)
   registration_event    RegistrationEvent @relation(fields: [registration_event_id], references: [id], onDelete: Cascade)
 }

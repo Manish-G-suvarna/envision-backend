@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import { clerkMiddleware } from '@clerk/express';
 import { env } from './config/env';
 import { globalRateLimiter } from './middleware/rateLimit';
 
@@ -22,46 +21,24 @@ const app = express();
 // Without this, all clients behind the proxy appear as 127.0.0.1 and share one rate bucket
 app.set('trust proxy', 1);
 
-// Security headers
-app.use(helmet());
+// Security headers - Temporarily relaxed for local network diagnostic
+app.use(helmet({
+    crossOriginResourcePolicy: false,
+    contentSecurityPolicy: false,
+}));
 
 // Global rate limiting
 app.use('/api', globalRateLimiter);
 
-// CORS configuration
+// CORS configuration - Allow ALL in development for mobile/LAN testing
 app.use(cors({
-    origin: (origin, callback) => {
-        // In development, allow all origins for easy mobile/LAN testing
-        if (process.env.NODE_ENV === 'development' || !origin) {
-            return callback(null, true);
-        }
-        
-        const allowedOrigins = [
-            env.FRONTEND_URL, 
-            'https://envisionsit.in', 
-            'https://envision-70i6jic1x-manish-g-suvarnas-projects-b07d8c30.vercel.app',
-            'http://127.0.0.1:3000', 
-            'http://localhost:3000',
-            'http://localhost:3001',
-            'http://10.165.68.143:3001'
-        ];
-        if (allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
+    origin: true,
     credentials: true,
 }));
 
-// Body parsing with payload size limits
-app.use(express.json({ limit: '10kb' }));
-app.use(express.urlencoded({ extended: true, limit: '10kb' }));
-
-// Clerk auth context for protected admin routes
-if (env.CLERK_SECRET_KEY) {
-    app.use(clerkMiddleware());
-}
+// Body parsing with increased payload size limits for complex team registrations
+app.use(express.json({ limit: '1mb' }));
+app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 
 // Health Check
 app.get('/api/health', (req, res) => {

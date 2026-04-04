@@ -8,7 +8,11 @@ export const listParticipants = async (req: Request, res: Response) => {
         const status = req.query.status as string | undefined;
         const skip = (page - 1) * limit;
 
-        const whereClause: any = {};
+        const whereClause: any = {
+            utr_id: {
+                not: null,
+            },
+        };
         if (status) whereClause.payment_status = status;
 
         const registrations = await prisma.registration.findMany({

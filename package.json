@@ -7,9 +7,7 @@
     "dev": "nodemon --exec \"ts-node --transpile-only\" src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "seed": "ts-node prisma/seed.ts",
-    "sync:event-metadata": "ts-node prisma/syncEventMetadata.ts",
-    "sync:env-ids": "ts-node src/scripts/sync-env-ids.ts"
+    "seed": "ts-node prisma/seed.ts"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"

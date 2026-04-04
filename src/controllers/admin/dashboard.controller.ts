@@ -29,8 +29,8 @@ export const getDashboardStats = async (req: Request, res: Response) => {
 
 export const getAllStudents = async (req: Request, res: Response) => {
     try {
-        const page = Number(req.query.page) || 1;
-        const limit = Number(req.query.limit) || 20;
+        const page = (req.query.page as any) || 1;
+        const limit = (req.query.limit as any) || 20;
         const search = (req.query.search as string) || '';
         const skip = (page - 1) * limit;
 
@@ -40,28 +40,6 @@ export const getAllStudents = async (req: Request, res: Response) => {
                 { name: { contains: search, mode: 'insensitive' } },
                 { email: { contains: search, mode: 'insensitive' } },
                 { usn: { contains: search, mode: 'insensitive' } },
-                { env_id: { contains: search, mode: 'insensitive' } },
-                { phone: { contains: search, mode: 'insensitive' } },
-                { college: { contains: search, mode: 'insensitive' } },
-                { department: { contains: search, mode: 'insensitive' } },
-                {
-                    registrations: {
-                        some: {
-                            OR: [
-                                { utr_id: { contains: search, mode: 'insensitive' } },
-                                {
-                                    events: {
-                                        some: {
-                                            event: {
-                                                event_name: { contains: search, mode: 'insensitive' },
-                                            },
-                                        },
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                },
             ];
         }
 
@@ -71,29 +49,8 @@ export const getAllStudents = async (req: Request, res: Response) => {
             take: limit,
             include: {
                 registrations: {
-                    include: {
-                        events: {
-                            include: {
-                                event: {
-                                    select: {
-                                        id: true,
-                                        event_name: true,
-                                        fee: true,
-                                    },
-                                },
-                                members: {
-                                    select: {
-                                        id: true,
-                                        name: true,
-                                        env_id: true,
-                                        is_leader: true,
-                                    },
-                                },
-                            },
-                        },
-                    },
-                    orderBy: { created_at: 'desc' },
-                },
+                    select: { id: true }
+                }
             },
             orderBy: { createdAt: 'desc' },
         });
@@ -107,32 +64,11 @@ export const getAllStudents = async (req: Request, res: Response) => {
             phone: s.phone,
             college: s.college,
             department: s.department,
-            degree: s.degree,
-            gender: s.gender,
             usn: s.usn,
             envId: s.env_id,
             onboarded: s.is_onboarded,
             registrationCount: s.registrations.length,
             createdAt: s.createdAt,
-            registrations: s.registrations.map(registration => ({
-                id: registration.id,
-                paymentStatus: registration.payment_status,
-                utrId: registration.utr_id,
-                totalAmount: Number(registration.total_amount),
-                registeredAt: registration.created_at,
-                events: registration.events.map(registrationEvent => ({
-                    id: registrationEvent.event.id,
-                    name: registrationEvent.event.event_name,
-                    fee: Number(registrationEvent.event.fee),
-                    teamName: registrationEvent.team_name,
-                    members: registrationEvent.members.map(member => ({
-                        id: member.id,
-                        name: member.name,
-                        envId: member.env_id,
-                        isLeader: member.is_leader,
-                    })),
-                })),
-            })),
         }));
 
         res.json({
