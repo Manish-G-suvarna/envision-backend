@@ -8,3 +8,7 @@ yarn-debug.log*
 yarn-error.log*
 .prisma
 *.tsbuildinfo
+crash.log
+db_events.json
+db_results.txt
+exports/
