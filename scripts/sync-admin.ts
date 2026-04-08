@@ -61,6 +61,11 @@ async function syncAdmin() {
     console.log('\n🚀 You can now log in at /admin/login');
 
   } catch (error: any) {
+    if (error.errors) {
+      console.error('❌ Clerk Validation Errors:', JSON.stringify(error.errors, null, 2));
+    } else if (error.response?.data?.errors) {
+      console.error('❌ Clerk API Errors:', JSON.stringify(error.response.data.errors, null, 2));
+    }
     console.error('❌ Error syncing admin:', error.message);
     process.exit(1);
   } finally {
