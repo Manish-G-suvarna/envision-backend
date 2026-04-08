@@ -7,7 +7,10 @@
     "dev": "nodemon --exec \"ts-node --transpile-only\" src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node prisma/seed.ts",
+    "sync:events:user-data": "ts-node src/scripts/sync-events-from-user-data.ts",
+    "events:reset-verify": "ts-node src/scripts/reset-and-verify-events.ts",
+    "export:registrations": "ts-node src/scripts/export-complete-registrations.ts"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"

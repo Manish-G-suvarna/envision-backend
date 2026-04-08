@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import { clerkMiddleware } from '@clerk/express';
 import { env } from './config/env';
 import { globalRateLimiter } from './middleware/rateLimit';
 
@@ -39,6 +40,7 @@ app.use(cors({
 // Body parsing with increased payload size limits for complex team registrations
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
+app.use(clerkMiddleware());
 
 // Health Check
 app.get('/api/health', (req, res) => {

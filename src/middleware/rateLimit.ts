@@ -31,6 +31,7 @@ export const globalRateLimiter = rateLimit({
     standardHeaders: 'draft-7',
     legacyHeaders: false,
     store: buildStore('global'),
+    skip: (req) => req.path.startsWith('/v1/admin/auth/'),
     message: {
         error: 'Too many requests, please try again later.',
     },

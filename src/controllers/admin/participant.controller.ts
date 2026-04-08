@@ -8,11 +8,7 @@ export const listParticipants = async (req: Request, res: Response) => {
         const status = req.query.status as string | undefined;
         const skip = (page - 1) * limit;
 
-        const whereClause: any = {
-            utr_id: {
-                not: null,
-            },
-        };
+        const whereClause: any = {};
         if (status) whereClause.payment_status = status;
 
         const registrations = await prisma.registration.findMany({
@@ -26,6 +22,7 @@ export const listParticipants = async (req: Request, res: Response) => {
                         event: {
                             select: { event_name: true },
                         },
+                        members: true,
                     },
                 },
             },
@@ -41,6 +38,15 @@ export const listParticipants = async (req: Request, res: Response) => {
             phone: reg.user.phone,
             college: reg.user.college,
             events: reg.events.map(e => e.event.event_name),
+            teams: reg.events.map(e => ({
+                eventName: e.event.event_name,
+                teamName: e.team_name,
+                members: e.members.map(m => ({
+                    name: m.name,
+                    envId: m.env_id,
+                    isLeader: m.is_leader,
+                })),
+            })),
             paymentStatus: reg.payment_status,
             amountPaid: Number(reg.total_amount),
             utrId: reg.utr_id,
@@ -109,13 +115,34 @@ export const updatePaymentStatus = async (req: Request, res: Response) => {
             return;
         }
 
-        const registration = await prisma.registration.update({
-            where: { id: Number(id) },
-            data: { payment_status },
-            include: {
-                user: { select: { name: true, email: true } },
-                events: { include: { event: { select: { event_name: true } } } },
-            },
+        const registration = await prisma.$transaction(async (tx) => {
+            const updatedRegistration = await tx.registration.update({
+                where: { id: Number(id) },
+                data: { payment_status },
+                include: {
+                    user: { select: { name: true, email: true } },
+                    events: { include: { event: { select: { event_name: true } } } },
+                },
+            });
+
+            if (updatedRegistration.utr_id && payment_status === 'verified') {
+                await (tx as any).verifiedTransaction.upsert({
+                    where: { utr_id: updatedRegistration.utr_id },
+                    update: {
+                        amount: Number(updatedRegistration.total_amount),
+                        status: payment_status,
+                        processed: true,
+                    },
+                    create: {
+                        utr_id: updatedRegistration.utr_id,
+                        amount: Number(updatedRegistration.total_amount),
+                        status: payment_status,
+                        processed: true,
+                    },
+                });
+            }
+
+            return updatedRegistration;
         });
 
         res.json({
@@ -137,6 +164,23 @@ export const updatePaymentStatus = async (req: Request, res: Response) => {
 export const removeParticipant = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
+
+        const registration = await prisma.registration.findUnique({
+            where: { id: Number(id) },
+            select: { id: true, payment_status: true, utr_id: true },
+        });
+
+        if (!registration) {
+            res.status(404).json({ message: 'Registration not found' });
+            return;
+        }
+
+        if (registration.payment_status === 'verified' || registration.utr_id) {
+            res.status(409).json({
+                message: 'Refusing to delete a registration that has payment history. Keep it for audit safety or use a dedicated purge script.',
+            });
+            return;
+        }
 
         // Delete related records first
         await prisma.registrationEvent.deleteMany({ where: { registration_id: Number(id) } });

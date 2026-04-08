@@ -10,4 +10,5 @@ export type AdminRequestContext = {
 
 export type AuthenticatedRequest = Request & {
     admin?: AdminRequestContext;
+    authUserId?: string;
 };

@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 async function main() {
     const email = 'admin@envision.in';
-    const password = '#Envisionsit2026';
+    const password = 'Envisionsit2026';
     const name = 'Envision Admin';
 
     console.log(`🔐 UPSERTING ADMIN: ${email}...`);

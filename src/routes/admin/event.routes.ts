@@ -3,6 +3,7 @@ import {
     listEvents,
     getEventById,
     getEventStats,
+    getEventRegistrationDetails,
     updateEventStatus,
     closeAllEvents,
     openAllEvents,
@@ -18,6 +19,7 @@ router.use(verifyAdmin);
 router.get('/', validateRequest(listEventsSchema), listEvents);
 router.put('/close-all', closeAllEvents);
 router.put('/open-all', openAllEvents);
+router.get('/:id/registrations', validateRequest(idParamSchema), getEventRegistrationDetails);
 router.get('/:id', validateRequest(idParamSchema), getEventById);
 router.get('/:id/stats', validateRequest(idParamSchema), getEventStats);
 router.put('/:id/status', validateRequest(updateEventStatusSchema), updateEventStatus);
