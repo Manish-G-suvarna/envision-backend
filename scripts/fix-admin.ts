@@ -2,7 +2,7 @@ import prisma from '../src/config/prisma';
 import bcrypt from 'bcryptjs';
 
 async function fixAdmin() {
-  const email = process.argv[2] || 'dhanush.admin@envision.dev';
+  const email = process.argv[2] || 'manish.admin@envision.dev';
   const newPassword = process.argv[3] || 'AdminPassword123!';
 
   console.log(`🔧 Repairing integrity for admin: ${email}...`);

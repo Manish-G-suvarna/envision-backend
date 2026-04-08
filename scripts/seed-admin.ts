@@ -5,8 +5,8 @@ import bcrypt from 'bcryptjs';
 async function seedAdmin() {
   console.log('🚀 Creating first admin user...\n');
 
-  const email = 'dhanush.admin@envision.dev';
-  const firstName = 'Dhanush';
+  const email = 'manish.admin@envision.dev';
+  const firstName = 'Manish';
   const lastName = 'Admin';
   const password = 'AdminPassword123!';
 
