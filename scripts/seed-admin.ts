@@ -8,7 +8,7 @@ async function seedAdmin() {
   const email = 'manish.admin@envision.dev';
   const firstName = 'Manish';
   const lastName = 'Admin';
-  const password = 'AdminPassword123!';
+  const password = 'Env@Admin#9988!2026';
 
   try {
     // 1. Create user in Clerk

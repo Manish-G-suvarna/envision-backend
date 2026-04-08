@@ -6,7 +6,7 @@ async function syncAdmin() {
   const email = 'manish.admin@envision.dev';
   const firstName = 'Manish';
   const lastName = 'Admin';
-  const password = 'AdminPassword123!';
+  const password = 'Env@Admin#9988!2026';
 
   console.log(`📡 Syncing admin account for: ${email}...\n`);
 
