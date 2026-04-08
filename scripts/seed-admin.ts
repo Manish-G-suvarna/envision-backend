@@ -1,5 +1,6 @@
 import { clerkClient } from '@clerk/express';
 import prisma from '../src/config/prisma';
+import bcrypt from 'bcryptjs';
 
 async function seedAdmin() {
   console.log('🚀 Creating first admin user...\n');
@@ -24,13 +25,17 @@ async function seedAdmin() {
 
     console.log(`✓ Clerk user created: ${clerkUser.id}`);
 
-    // 2. Create admin record in database
+    // 2. Hash password for local admin login
+    const password_hash = await bcrypt.hash(password, 10);
+
+    // 3. Create admin record in database
     console.log('\n💾 Creating admin record in database...');
     const admin = await prisma.admin.create({
       data: {
         clerk_user_id: clerkUser.id,
         email,
         name: `${firstName} ${lastName}`,
+        password_hash,
         is_active: true,
       },
     });

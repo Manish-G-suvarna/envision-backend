@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { clerkClient } from '@clerk/clerk-sdk-node';
 import prisma from '../../config/prisma';
+import bcrypt from 'bcryptjs';
 import { AuthenticatedRequest } from '../../types/auth';
 
 const adminResponse = {
@@ -104,12 +105,16 @@ export const createAdmin = async (req: Request, res: Response) => {
             lastName: name.split(' ').slice(1).join(' ') || '',
         });
 
+        // Hash password for local login
+        const password_hash = await bcrypt.hash(password, 10);
+
         // Create admin record in our DB
         const admin = await prisma.admin.create({
             data: {
                 clerk_user_id: clerkUser.id,
                 email: email.toLowerCase(),
                 name,
+                password_hash,
             },
             select: adminResponse,
         });
@@ -170,9 +175,16 @@ export const resetAdminPassword = async (req: Request, res: Response) => {
             return;
         }
 
-        // Update password in Clerk
+        // 1. Update password in Clerk
         await clerkClient.users.updateUser(admin.clerk_user_id, {
             password,
+        });
+
+        // 2. Update password hash in local DB
+        const password_hash = await bcrypt.hash(password, 10);
+        await prisma.admin.update({
+            where: { id: adminId },
+            data: { password_hash },
         });
 
         res.json({ message: 'Admin password reset successfully' });
