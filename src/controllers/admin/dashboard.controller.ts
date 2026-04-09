@@ -30,7 +30,7 @@ export const getDashboardStats = async (req: Request, res: Response) => {
 export const getAllStudents = async (req: Request, res: Response) => {
     try {
         const page = (req.query.page as any) || 1;
-        const limit = (req.query.limit as any) || 20;
+        const limit = (req.query.limit as any) || 1000;
         const search = (req.query.search as string) || '';
         const skip = (page - 1) * limit;
 
