@@ -10,6 +10,8 @@ declare global {
                 email: string;
                 name: string;
                 isActive: boolean;
+                scope: 'main' | 'department';
+                departments: string[];
             };
         }
     }

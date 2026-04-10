@@ -1,16 +1,24 @@
 import { Request, Response } from 'express';
 import prisma from '../../config/prisma';
+import { AuthenticatedRequest } from '../../types/auth';
+import { getAdminDepartmentFilter, isDepartmentAdmin } from '../../utils/adminScope';
 
 export const listEvents = async (req: Request, res: Response) => {
     try {
+        const authReq = req as AuthenticatedRequest;
         const page = Number(req.query.page) || 1;
         const limit = Number(req.query.limit) || 100;
         const search = req.query.search as string | undefined;
         const skip = (page - 1) * limit;
+        const allowedDepartments = getAdminDepartmentFilter(authReq);
 
-        const whereClause = search ? {
-            event_name: { contains: search, mode: 'insensitive' as any },
-        } : {};
+        const whereClause: any = {};
+        if (search) {
+            whereClause.event_name = { contains: search, mode: 'insensitive' as any };
+        }
+        if (allowedDepartments) {
+            whereClause.department = { department_name: { in: allowedDepartments } };
+        }
 
         const events = await prisma.event.findMany({
             where: whereClause,
@@ -90,7 +98,9 @@ export const listEvents = async (req: Request, res: Response) => {
 
 export const getEventById = async (req: Request, res: Response) => {
     try {
+        const authReq = req as AuthenticatedRequest;
         const { id } = req.params;
+        const allowedDepartments = getAdminDepartmentFilter(authReq);
 
         const event = await prisma.event.findUnique({
             where: { id: Number(id) },
@@ -102,6 +112,10 @@ export const getEventById = async (req: Request, res: Response) => {
 
         if (!event) {
             res.status(404).json({ message: 'Event not found' });
+            return;
+        }
+        if (allowedDepartments && !allowedDepartments.includes(event.department.department_name)) {
+            res.status(403).json({ message: 'Access denied for this department event' });
             return;
         }
 
@@ -134,11 +148,20 @@ export const getEventById = async (req: Request, res: Response) => {
 
 export const getEventStats = async (req: Request, res: Response) => {
     try {
+        const authReq = req as AuthenticatedRequest;
         const { id } = req.params;
+        const allowedDepartments = getAdminDepartmentFilter(authReq);
 
-        const event = await prisma.event.findUnique({ where: { id: Number(id) } });
+        const event = await prisma.event.findUnique({
+            where: { id: Number(id) },
+            include: { department: true },
+        });
         if (!event) {
             res.status(404).json({ message: 'Event not found' });
+            return;
+        }
+        if (allowedDepartments && !allowedDepartments.includes(event.department.department_name)) {
+            res.status(403).json({ message: 'Access denied for this department event' });
             return;
         }
 
@@ -173,8 +196,10 @@ export const getEventStats = async (req: Request, res: Response) => {
 
 export const getEventRegistrationDetails = async (req: Request, res: Response) => {
     try {
+        const authReq = req as AuthenticatedRequest;
         const { id } = req.params;
         const eventId = Number(id);
+        const allowedDepartments = getAdminDepartmentFilter(authReq);
 
         const event = await prisma.event.findUnique({
             where: { id: eventId },
@@ -185,6 +210,10 @@ export const getEventRegistrationDetails = async (req: Request, res: Response) =
 
         if (!event) {
             res.status(404).json({ message: 'Event not found' });
+            return;
+        }
+        if (allowedDepartments && !allowedDepartments.includes(event.department.department_name)) {
+            res.status(403).json({ message: 'Access denied for this department event' });
             return;
         }
 
@@ -352,11 +381,26 @@ export const getEventRegistrationDetails = async (req: Request, res: Response) =
 
 export const updateEventStatus = async (req: Request, res: Response) => {
     try {
+        const authReq = req as AuthenticatedRequest;
         const { id } = req.params;
         const { status } = req.body;
+        const allowedDepartments = getAdminDepartmentFilter(authReq);
 
         if (!['OPEN', 'CLOSED'].includes(status)) {
             res.status(400).json({ message: 'Status must be OPEN or CLOSED' });
+            return;
+        }
+
+        const existingEvent = await prisma.event.findUnique({
+            where: { id: Number(id) },
+            include: { department: true },
+        });
+        if (!existingEvent) {
+            res.status(404).json({ message: 'Event not found' });
+            return;
+        }
+        if (allowedDepartments && !allowedDepartments.includes(existingEvent.department.department_name)) {
+            res.status(403).json({ message: 'Access denied for this department event' });
             return;
         }
 
@@ -377,6 +421,11 @@ export const updateEventStatus = async (req: Request, res: Response) => {
 
 export const closeAllEvents = async (req: Request, res: Response) => {
     try {
+        const authReq = req as AuthenticatedRequest;
+        if (isDepartmentAdmin(authReq)) {
+            res.status(403).json({ message: 'Department admins cannot close all events' });
+            return;
+        }
         const result = await prisma.event.updateMany({
             where: { status: 'OPEN' },
             data: { status: 'CLOSED' },
@@ -390,6 +439,11 @@ export const closeAllEvents = async (req: Request, res: Response) => {
 
 export const openAllEvents = async (req: Request, res: Response) => {
     try {
+        const authReq = req as AuthenticatedRequest;
+        if (isDepartmentAdmin(authReq)) {
+            res.status(403).json({ message: 'Department admins cannot open all events' });
+            return;
+        }
         const result = await prisma.event.updateMany({
             where: { status: 'CLOSED' },
             data: { status: 'OPEN' },

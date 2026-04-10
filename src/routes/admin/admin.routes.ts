@@ -6,7 +6,7 @@ import {
     resetAdminPassword,
     updateAdminStatus,
 } from '../../controllers/admin/admin.controller';
-import { verifyAdmin } from '../../middleware/auth';
+import { requireMainAdmin, verifyAdmin } from '../../middleware/auth';
 import { validateRequest } from '../../middleware/validate';
 import {
     createAdminSchema,
@@ -19,6 +19,7 @@ import {
 const router = Router();
 
 router.use(verifyAdmin);
+router.use(requireMainAdmin);
 
 router.get('/', validateRequest(listAdminsSchema), listAdmins);
 router.post('/', validateRequest(createAdminSchema), createAdmin);

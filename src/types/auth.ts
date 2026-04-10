@@ -6,6 +6,8 @@ export type AdminRequestContext = {
     email: string;
     name: string;
     isActive: boolean;
+    scope: 'main' | 'department';
+    departments: string[];
 };
 
 export type AuthenticatedRequest = Request & {

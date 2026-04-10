@@ -1,17 +1,46 @@
 import { Request, Response } from 'express';
 import prisma from '../../config/prisma';
+import { AuthenticatedRequest } from '../../types/auth';
+import { getAdminDepartmentFilter } from '../../utils/adminScope';
 
 export const getDashboardStats = async (req: Request, res: Response) => {
     try {
+        const authReq = req as AuthenticatedRequest;
+        const allowedDepartments = getAdminDepartmentFilter(authReq);
+        const registrationWhere = allowedDepartments
+            ? {
+                events: {
+                    some: {
+                        event: {
+                            department: { department_name: { in: allowedDepartments } },
+                        },
+                    },
+                },
+            }
+            : {};
+        const eventWhere = allowedDepartments
+            ? {
+                department: {
+                    department_name: { in: allowedDepartments },
+                },
+            }
+            : {};
+
         const [totalRevenue, totalUsers, totalEvents, openEvents, verifiedRegistrations] = await Promise.all([
             prisma.registration.aggregate({
                 _sum: { total_amount: true },
-                where: { payment_status: 'verified' },
+                where: { payment_status: 'verified', ...(registrationWhere as any) },
             }),
-            prisma.user.count(),
-            prisma.event.count(),
-            prisma.event.count({ where: { status: 'OPEN' } }),
-            prisma.registration.count({ where: { payment_status: 'verified' } }),
+            allowedDepartments
+                ? prisma.user.count({
+                    where: {
+                        registrations: { some: registrationWhere as any },
+                    },
+                })
+                : prisma.user.count(),
+            prisma.event.count({ where: eventWhere as any }),
+            prisma.event.count({ where: { status: 'OPEN', ...(eventWhere as any) } }),
+            prisma.registration.count({ where: { payment_status: 'verified', ...(registrationWhere as any) } }),
         ]);
 
         res.json({
@@ -29,10 +58,12 @@ export const getDashboardStats = async (req: Request, res: Response) => {
 
 export const getAllStudents = async (req: Request, res: Response) => {
     try {
+        const authReq = req as AuthenticatedRequest;
         const page = (req.query.page as any) || 1;
         const limit = (req.query.limit as any) || 1000;
         const search = (req.query.search as string) || '';
         const skip = (page - 1) * limit;
+        const allowedDepartments = getAdminDepartmentFilter(authReq);
 
         const where: any = {};
         if (search) {
@@ -41,6 +72,19 @@ export const getAllStudents = async (req: Request, res: Response) => {
                 { email: { contains: search, mode: 'insensitive' } },
                 { usn: { contains: search, mode: 'insensitive' } },
             ];
+        }
+        if (allowedDepartments) {
+            where.registrations = {
+                some: {
+                    events: {
+                        some: {
+                            event: {
+                                department: { department_name: { in: allowedDepartments } },
+                            },
+                        },
+                    },
+                },
+            };
         }
 
         const students = await prisma.user.findMany({
@@ -57,6 +101,11 @@ export const getAllStudents = async (req: Request, res: Response) => {
                                         id: true,
                                         event_name: true,
                                         fee: true,
+                                        department: {
+                                            select: {
+                                                department_name: true,
+                                            },
+                                        },
                                     },
                                 },
                                 members: {
@@ -77,21 +126,8 @@ export const getAllStudents = async (req: Request, res: Response) => {
 
         const total = await prisma.user.count({ where });
 
-        const formattedStudents = students.map(s => ({
-            id: s.id,
-            name: s.name,
-            email: s.email,
-            phone: s.phone,
-            college: s.college,
-            department: s.department,
-            degree: s.degree,
-            gender: s.gender,
-            usn: s.usn,
-            envId: s.env_id,
-            onboarded: s.is_onboarded,
-            registrationCount: s.registrations.length,
-            createdAt: s.createdAt,
-            registrations: s.registrations.map(reg => ({
+        const formattedStudents = students.map(s => {
+            const registrations = s.registrations.map(reg => ({
                 id: reg.id,
                 paymentStatus: reg.payment_status,
                 utrId: reg.utr_id,
@@ -101,6 +137,7 @@ export const getAllStudents = async (req: Request, res: Response) => {
                     id: re.event.id,
                     name: re.event.event_name,
                     fee: Number(re.event.fee),
+                    department: re.event.department?.department_name || null,
                     teamName: re.team_name,
                     members: re.members.map(member => ({
                         id: member.id,
@@ -109,8 +146,30 @@ export const getAllStudents = async (req: Request, res: Response) => {
                         isLeader: member.is_leader,
                     })),
                 })),
-            })),
-        }));
+            })).map((reg) => ({
+                ...reg,
+                events: allowedDepartments
+                    ? reg.events.filter((event) => event.department && allowedDepartments.includes(event.department))
+                    : reg.events,
+            })).filter((reg) => reg.events.length > 0);
+
+            return {
+                id: s.id,
+                name: s.name,
+                email: s.email,
+                phone: s.phone,
+                college: s.college,
+                department: s.department,
+                degree: s.degree,
+                gender: s.gender,
+                usn: s.usn,
+                envId: s.env_id,
+                onboarded: s.is_onboarded,
+                registrationCount: registrations.length,
+                createdAt: s.createdAt,
+                registrations,
+            };
+        });
 
         res.json({
             data: formattedStudents,
@@ -129,15 +188,27 @@ export const getAllStudents = async (req: Request, res: Response) => {
 
 export const getAllPayments = async (req: Request, res: Response) => {
     try {
+        const authReq = req as AuthenticatedRequest;
         const page = req.query.page as any || 1;
         const limit = req.query.limit as any || 20;
         const status = req.query.status as any;
         const skip = (page - 1) * limit;
+        const allowedDepartments = getAdminDepartmentFilter(authReq);
 
         const whereClause = status ? { payment_status: status } : {};
+        const whereWithDepartment = allowedDepartments
+            ? {
+                ...whereClause,
+                event: {
+                    department: {
+                        department_name: { in: allowedDepartments },
+                    },
+                },
+            }
+            : whereClause;
 
         const payments = await prisma.participant.findMany({
-            where: whereClause,
+            where: whereWithDepartment as any,
             skip,
             take: limit,
             include: {
@@ -151,7 +222,7 @@ export const getAllPayments = async (req: Request, res: Response) => {
             orderBy: { registered_at: 'desc' },
         });
 
-        const total = await prisma.participant.count({ where: whereClause });
+        const total = await prisma.participant.count({ where: whereWithDepartment as any });
 
         const formattedPayments = payments.map(payment => ({
             id: payment.id,

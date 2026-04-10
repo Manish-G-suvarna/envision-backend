@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import prisma from '../../config/prisma';
 import { env } from '../../config/env';
 import { AuthenticatedRequest } from '../../types/auth';
+import { resolveAdminScope } from '../../utils/adminScope';
 
 export const loginAdmin = async (req: Request, res: Response) => {
     const { email, password } = req.body;
@@ -33,6 +34,7 @@ export const loginAdmin = async (req: Request, res: Response) => {
             res.status(401).json({ message: 'Invalid credentials' });
             return;
         }
+        const scopeInfo = resolveAdminScope(admin.email);
 
         // Update last login
         await prisma.admin.update({
@@ -42,7 +44,7 @@ export const loginAdmin = async (req: Request, res: Response) => {
 
         // Generate Token
         const token = jwt.sign(
-            { id: admin.id, email: admin.email },
+            { id: admin.id, email: admin.email, scope: scopeInfo.scope, departments: scopeInfo.departments },
             env.ADMIN_JWT_SECRET,
             { expiresIn: '24h' }
         );
@@ -54,6 +56,8 @@ export const loginAdmin = async (req: Request, res: Response) => {
                 email: admin.email,
                 name: admin.name,
                 isActive: admin.is_active,
+                scope: scopeInfo.scope,
+                departments: scopeInfo.departments,
             }
         });
     } catch (error) {
@@ -86,6 +90,7 @@ export const getCurrentAdmin = async (req: AuthenticatedRequest, res: Response) 
             res.status(404).json({ message: 'Admin not found' });
             return;
         }
+        const scopeInfo = resolveAdminScope(admin.email);
 
         res.json({
             admin: {
@@ -93,6 +98,8 @@ export const getCurrentAdmin = async (req: AuthenticatedRequest, res: Response) 
                 email: admin.email,
                 name: admin.name,
                 isActive: admin.is_active,
+                scope: scopeInfo.scope,
+                departments: scopeInfo.departments,
                 lastLoginAt: admin.last_login_at,
                 createdAt: admin.created_at,
                 updatedAt: admin.updated_at,

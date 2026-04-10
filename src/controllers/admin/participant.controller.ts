@@ -1,15 +1,30 @@
 import { Request, Response } from 'express';
 import prisma from '../../config/prisma';
+import { AuthenticatedRequest } from '../../types/auth';
+import { getAdminDepartmentFilter } from '../../utils/adminScope';
 
 export const listParticipants = async (req: Request, res: Response) => {
     try {
+        const authReq = req as AuthenticatedRequest;
         const page = Number(req.query.page) || 1;
         const limit = Number(req.query.limit) || 100;
         const status = req.query.status as string | undefined;
         const skip = (page - 1) * limit;
+        const allowedDepartments = getAdminDepartmentFilter(authReq);
 
         const whereClause: any = {};
         if (status) whereClause.payment_status = status;
+        if (allowedDepartments) {
+            whereClause.events = {
+                some: {
+                    event: {
+                        department: {
+                            department_name: { in: allowedDepartments },
+                        },
+                    },
+                },
+            };
+        }
 
         const registrations = await prisma.registration.findMany({
             where: whereClause,
@@ -20,7 +35,9 @@ export const listParticipants = async (req: Request, res: Response) => {
                 events: {
                     include: {
                         event: {
-                            select: { event_name: true },
+                            include: {
+                                department: true,
+                            },
                         },
                         members: true,
                     },
@@ -40,6 +57,7 @@ export const listParticipants = async (req: Request, res: Response) => {
             events: reg.events.map(e => e.event.event_name),
             teams: reg.events.map(e => ({
                 eventName: e.event.event_name,
+                department: e.event.department?.department_name || null,
                 teamName: e.team_name,
                 members: e.members.map(m => ({
                     name: m.name,
@@ -65,7 +83,9 @@ export const listParticipants = async (req: Request, res: Response) => {
 
 export const getParticipantById = async (req: Request, res: Response) => {
     try {
+        const authReq = req as AuthenticatedRequest;
         const { id } = req.params;
+        const allowedDepartments = getAdminDepartmentFilter(authReq);
 
         const registration = await prisma.registration.findUnique({
             where: { id: Number(id) },
@@ -74,7 +94,9 @@ export const getParticipantById = async (req: Request, res: Response) => {
                 events: {
                     include: {
                         event: {
-                            select: { id: true, event_name: true, fee: true },
+                            include: {
+                                department: true,
+                            },
                         },
                     },
                 },
@@ -84,6 +106,16 @@ export const getParticipantById = async (req: Request, res: Response) => {
         if (!registration) {
             res.status(404).json({ message: 'Registration not found' });
             return;
+        }
+
+        if (allowedDepartments) {
+            const hasDepartmentAccess = registration.events.some((entry) =>
+                allowedDepartments.includes(entry.event.department.department_name)
+            );
+            if (!hasDepartmentAccess) {
+                res.status(403).json({ message: 'Access denied for this registration' });
+                return;
+            }
         }
 
         res.json({
@@ -106,13 +138,45 @@ export const getParticipantById = async (req: Request, res: Response) => {
 
 export const updatePaymentStatus = async (req: Request, res: Response) => {
     try {
+        const authReq = req as AuthenticatedRequest;
         const { id } = req.params;
         const { payment_status } = req.body;
+        const allowedDepartments = getAdminDepartmentFilter(authReq);
 
         const validStatuses = ['pending', 'verified', 'rejected'];
         if (!validStatuses.includes(payment_status)) {
             res.status(400).json({ message: `Invalid status. Must be one of: ${validStatuses.join(', ')}` });
             return;
+        }
+
+        if (allowedDepartments) {
+            const registrationForAccess = await prisma.registration.findUnique({
+                where: { id: Number(id) },
+                include: {
+                    events: {
+                        include: {
+                            event: {
+                                include: {
+                                    department: true,
+                                },
+                            },
+                        },
+                    },
+                },
+            });
+
+            if (!registrationForAccess) {
+                res.status(404).json({ message: 'Registration not found' });
+                return;
+            }
+
+            const hasDepartmentAccess = registrationForAccess.events.some((entry) =>
+                allowedDepartments.includes(entry.event.department.department_name)
+            );
+            if (!hasDepartmentAccess) {
+                res.status(403).json({ message: 'Access denied for this registration' });
+                return;
+            }
         }
 
         const registration = await prisma.$transaction(async (tx) => {
@@ -182,7 +246,6 @@ export const removeParticipant = async (req: Request, res: Response) => {
             return;
         }
 
-        // Delete related records first
         await prisma.registrationEvent.deleteMany({ where: { registration_id: Number(id) } });
         await prisma.registration.delete({ where: { id: Number(id) } });
 
@@ -192,3 +255,4 @@ export const removeParticipant = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error removing registration' });
     }
 };
+

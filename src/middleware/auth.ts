@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { env } from '../config/env';
 import prisma from '../config/prisma';
 import { AuthenticatedRequest } from '../types/auth';
+import { resolveAdminScope } from '../utils/adminScope';
 
 export const requireUserAuth = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
     try {
@@ -38,11 +39,14 @@ export const verifyAdmin = async (req: AuthenticatedRequest, res: Response, next
                 });
 
                 if (admin && admin.is_active) {
+                    const scopeInfo = resolveAdminScope(admin.email);
                     req.admin = {
                         id: admin.id,
                         email: admin.email,
                         name: admin.name,
                         isActive: admin.is_active,
+                        scope: scopeInfo.scope,
+                        departments: scopeInfo.departments,
                     };
                     return next();
                 }
@@ -69,12 +73,15 @@ export const verifyAdmin = async (req: AuthenticatedRequest, res: Response, next
             });
 
             if (admin && admin.is_active) {
+                const scopeInfo = resolveAdminScope(admin.email);
                 req.admin = {
                     id: admin.id,
                     clerkUserId: admin.clerk_user_id || undefined,
                     email: admin.email,
                     name: admin.name,
                     isActive: admin.is_active,
+                    scope: scopeInfo.scope,
+                    departments: scopeInfo.departments,
                 };
                 return next();
             }
@@ -85,4 +92,18 @@ export const verifyAdmin = async (req: AuthenticatedRequest, res: Response, next
         console.error('Error verifying admin:', error);
         res.status(500).json({ message: 'Error verifying admin access' });
     }
+};
+
+export const requireMainAdmin = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
+    if (!req.admin) {
+        res.status(401).json({ message: 'Unauthorized' });
+        return;
+    }
+
+    if (req.admin.scope !== 'main') {
+        res.status(403).json({ message: 'Only main admin can access this resource' });
+        return;
+    }
+
+    next();
 };
