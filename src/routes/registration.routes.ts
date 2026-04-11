@@ -9,6 +9,7 @@ const upload = multer({ dest: 'uploads/' });
 const router = express.Router();
 
 router.post('/bulk-update', verifyAdmin, upload.single('file'), registrationController.bulkUpdateRegistrations);
+router.post('/bulk-verify-paytm', verifyAdmin, upload.single('file'), registrationController.bulkVerifyPaytmCsv);
 router.use(requireUserAuth);
 router.post('/start', registrationRateLimiter, registrationController.createRegistration);
 router.post('/create-with-payment', registrationRateLimiter, registrationController.createRegistrationWithPayment);

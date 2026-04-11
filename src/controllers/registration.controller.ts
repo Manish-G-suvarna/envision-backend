@@ -587,3 +587,68 @@ export const getUserByEnvId = async (req: Request, res: Response) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+// Bulk verify registrations from a Paytm transaction CSV export
+export const bulkVerifyPaytmCsv = async (req: Request, res: Response) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'No CSV file uploaded' });
+        }
+
+        const fileContent = fs.readFileSync(req.file.path, 'utf8');
+        fs.unlinkSync(req.file.path);
+
+        const records: string[][] = parse(fileContent, {
+            skip_empty_lines: true,
+            trim: true,
+            relax_quotes: true,
+        });
+
+        if (records.length < 2) {
+            return res.status(400).json({ error: 'CSV is empty or has no data rows' });
+        }
+
+        // Paytm column indices (0-based): 7=Status, 14=Amount, 20=UTR_No.
+        const STATUS_COL = 7;
+        const AMOUNT_COL = 14;
+        const UTR_COL = 20;
+
+        const results = { verified: [] as string[], preStored: [] as string[], skipped: [] as string[], errors: [] as string[] };
+
+        for (let i = 1; i < records.length; i++) {
+            const row = records[i];
+            if (!row || row.length < UTR_COL + 1) continue;
+            const status = row[STATUS_COL]?.replace(/'/g, '').trim();
+            const utr = row[UTR_COL]?.replace(/'/g, '').trim();
+            const amount = parseFloat(row[AMOUNT_COL]?.replace(/'/g, '').trim() || '0');
+
+            if (status !== 'SUCCESS' || !utr) { results.skipped.push(utr || 'row-' + i); continue; }
+
+            const registration = await prisma.registration.findUnique({ where: { utr_id: utr } });
+
+            if (registration) {
+                const regAmount = Number(registration.total_amount);
+                if (amount && Math.abs(regAmount - amount) > 1) {
+                    results.errors.push(utr + ': amount mismatch (paid Rs.' + amount + ', expected Rs.' + regAmount + ')');
+                    continue;
+                }
+                await prisma[''](async (tx: any) => {
+                    await tx.registration.update({ where: { id: registration.id }, data: { payment_status: 'verified' } });
+                    await tx.verifiedTransaction.upsert({ where: { utr_id: utr }, update: { amount, status: 'verified', processed: true }, create: { utr_id: utr, amount, status: 'verified', processed: true } });
+                });
+                emitRegistrationUpdate(registration.id, 'verified');
+                results.verified.push(utr);
+            } else {
+                try {
+                    await (prisma as any).verifiedTransaction.upsert({ where: { utr_id: utr }, update: { amount, status: 'verified' }, create: { utr_id: utr, amount, status: 'verified' } });
+                    results.preStored.push(utr);
+                } catch { results.errors.push(utr + ': failed to pre-store'); }
+            }
+        }
+
+        res.json({ success: true, summary: { verified: results.verified.length, preStored: results.preStored.length, skipped: results.skipped.length, errors: results.errors.length }, details: results });
+    } catch (error) {
+        console.error('Paytm CSV bulk verify error:', error);
+        res.status(500).json({ error: 'Bulk verify failed', details: error instanceof Error ? error.message : 'Unknown' });
+    }
+};
