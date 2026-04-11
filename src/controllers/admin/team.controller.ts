@@ -14,8 +14,13 @@ export const listTeams = async (req: Request, res: Response) => {
 
         const allowedDepartments = getAdminDepartmentFilter(authReq);
 
+        console.log(`[Teams] Fetching for admin: ${authReq.admin?.email}, Scope: ${authReq.admin?.scope}`);
+
         const whereClause: any = {
-            team_name: { not: null },
+            AND: [
+                { team_name: { not: null } },
+                { team_name: { not: "" } }
+            ]
         };
 
         if (eventId) {
@@ -65,6 +70,7 @@ export const listTeams = async (req: Request, res: Response) => {
         });
 
         const total = await prisma.registrationEvent.count({ where: whereClause });
+        console.log(`[Teams] Found ${teams.length} teams in query, ${total} total in whereClause`);
 
         const formattedTeams = teams.map(t => ({
             id: t.id,
