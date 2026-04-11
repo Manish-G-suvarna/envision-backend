@@ -1,0 +1,232 @@
+id,content,event_id
+1569,Individual participations only.,137
+1570,Each battle features two dancers facing off in a head-to-head challenge.,137
+1571,"Battle Format: Each round, the music genre changes unpredictably. Possible styles include Rap, Pop, Break beats, Funk, Electronica, House, Bollywood etc.",137
+1572,Time per dancer: 45–60 seconds to showcase their moves before the opponent responds.,137
+1573,"Battles are conducted in a knockout format, leading to a Final Showdown.",137
+1574,Judges select one dancer from each battle to advance to the next round.,137
+1575,The knockout rounds continue until only two dancers remain for the final showdown.,137
+1576,Final Showdown: The last two dancers compete in multiple rounds with surprise music transitions.,137
+1577,Teams must consist of a minimum of 4 and a maximum of 15 members.,138
+1578,All members of the team should individually register for the event,138
+1579,Performance duration: 5+2 minutes (including stage setup and clearance).,138
+1580,Dance styles encompass both Eastern and Western forms without separate categories.,138
+1581,Teams must showcase their creativity and versatility within the given time frame.,138
+1582,Use of props is allowed but should not cause stage damage.,138
+1583,Any form of inappropriate content or offensive gestures will lead to disqualification.,138
+1584,Individual participations only.,139
+1585,Teams must report 30 minutes before their performance.,139
+1586,Exceeding time limits may result in point deduction.,139
+1587,All registered participants are eligible to perform in Round 1.,140
+1588,Individual participations only.,140
+1589,Participants can sing any song of their choice in any language in Round 1.,140
+1590,"Karaoke track is allowed, but singing without a track is also permitted.",140
+1591,Participants must report 30 minutes before their performance.,140
+1592,Exceeding time limits may result in point deduction.,140
+1593,Match Format: Knockout matches : 2–3 overs per side depending on registration.,141
+1594,All members of the team should individually register for the event,141
+1595,Each team shall consist of 8 players.,141
+1596,Overs & Bowling Rule (1-1-1): Each bowler can bowl only 1 over.,141
+1597,"All 8 players can bat. If 7 wickets fall, last batter may not continue.",141
+1598,Boundary will be marked within 30 yards.,141
+1599,Wide and No-ball will give 1 extra run + extra ball.,141
+1600,The umpire's decision is final and binding.,141
+1601,In case of tie: Super Over (1 over each); Higher boundary count if Super Over not possible.,141
+1602,Misconduct or arguments with umpire may lead to disqualification.,141
+1603,Participation is strictly in teams of 3–4 members.,142
+1604,All members of the team should individually register for the event,142
+1605,Each team is allowed to use only one laptop or desktop.,142
+1606,"Total Duration: 2 Hours 20 Minutes (Briefing: 15 min, Investigation Rounds: 1 hr 45 min, Extra Time: 20 min).",142
+1607,No external internet usage is allowed unless explicitly permitted by the organizers.,142
+1608,Only approved tools and software may be used during the event.,142
+1609,Tampering with event materials or setup is strictly prohibited.,142
+1610,No communication between teams is allowed during the competition.,142
+1611,Any form of misconduct will result in immediate disqualification.,142
+1612,The decision of the organizers will be final and binding.,142
+1613,Participation is strictly in teams of 2 members,143
+1614,All members of the team should individually register for the event,143
+1615,Players will sit opposite each other during the competition.,143
+1616,One player acts as the Coder (sees screen and types); the other is the Guide (dictates logic without seeing the screen).,143
+1617,"The Guide must not touch the keyboard, mouse or screen at any time.",143
+1618,"No gestures, signs, written notes or non-verbal assistance are allowed.",143
+1619,The programming language will be announced before the event begins.,143
+1620,Code must be written strictly according to the given problem statement.,143
+1621,Any violation of rules will result in immediate disqualification.,143
+1622,Participants may register individually or in a team of maximum 2 members.,144
+1623,Both rounds will strictly follow the Reverse Coding format.,144
+1624,Internet access is strictly prohibited during the competition.,144
+1625,"Use of mobile phones, AI tools, online resources or external assistance is not allowed.",144
+1626,Any form of malpractice will lead to immediate disqualification.,144
+1627,No refunds will be provided after payment.,144
+1628,The event will be conducted in teams of 2–3 participants.,145
+1629,All members of the team should individually register for the event,145
+1630,Participants must explore only authorized areas.,145
+1631,Internet access and external devices are strictly prohibited unless permitted by the organizers.,145
+1632,"Participants must not alter system settings, delete files, or access restricted system areas.",145
+1633,Any form of unfair means or clue sharing between teams will lead to immediate disqualification.,145
+1634,No refunds will be provided after payment.,145
+1635,Open to all undergraduate students of the institution.,146
+1636,Team Consist of 3-4 members,146
+1637,All members of the team should individually register for the event,146
+1638,Participants must bring their own mobile phone or laptop with required editing software installed.,146
+1639,The theme/product will be revealed only during the event.,146
+1640,All content must be original and created during the competition time.,146
+1641,No copyrighted or inappropriate content is allowed.,146
+1642,Internet access is allowed only for royalty-free music or assets.,146
+1643,Late submissions will not be accepted.,146
+1644,Judges' decision will be final and binding.,146
+1645,Each team must consist of a minimum of 2 and a maximum of 4 participants.,147
+1646,All members of the team should individually register for the event,147
+1647,Individual participation is not allowed.,147
+1648,The robot must be fully autonomous; manual control during the run is strictly prohibited.,147
+1649,Touching the robot during the run will result in penalties.,147
+1650,"If the robot goes off the track, the team may place it back at the last checkpoint with a time penalty.",147
+1651,The robot must fit within the specified size limits; all power supplies must be onboard.,147
+1652,Teams must report to the venue on time; late entries may be disqualified.,147
+1653,The decision of the judges will be final and binding.,147
+1654,Each team must consist of exactly 2 members.,148
+1655,All members of the team should individually register for the event,148
+1656,Questions will be based on electronics concepts.,148
+1657,Participants must carry their valid college ID cards.,148
+1658,Teams must report to the venue at least 15 minutes before the event start time.,148
+1659,Late submissions will not be accepted under any circumstances.,148
+1660,"Use of mobile phones, smart devices, or internet access is strictly prohibited.",148
+1661,No communication between teams is allowed during the event.,148
+1662,Any form of cheating or malpractice will lead to immediate disqualification.,148
+1663,Judges' decisions will be final and binding.,148
+1664,Participants must work only within their assigned teams; no external collaboration is permitted.,149
+1665,Attacking or attempting to compromise the contest's scoring system is strictly prohibited.,149
+1666,"Standard reverse engineering tools (Ghidra, IDA Pro, Binary Ninja, GDB) are generally permitted.",149
+1667,Automated brute-forcing is strictly banned.,149
+1668,Mandatory use of safety gear for all hardware teardown activities.,149
+1669,No refunds will be provided after payment.,149
+1670,The event is conducted strictly in teams of 2 members only.,150
+1671,All members of the team should individually register for the event,150
+1672,Writing is permitted only after the display ends.,150
+1673,Answers must match the exact spelling as shown on the slide.,150
+1674,Participants must maintain complete silence during all rounds.,150
+1675,No electronic gadgets are allowed.,150
+1676,Any discussion with other teams or use of unfair means will lead to immediate disqualification.,150
+1677,The decision of the judges and organizing committee will be final and binding.,150
+1678,Helmet is mandatory for all riders. No helmet = no participation.,151
+1679,Riders must stay within the marked lane and must not touch or cross lane boundaries.,151
+1680,Riders must not place their feet on the ground until they reach the finish line.,151
+1681,Any type of two-wheeler is allowed to participate.,151
+1682,The rider who takes the maximum time without breaking rules will be declared the winner.,151
+1683,Any unsafe riding behaviour or rule violation may lead to disqualification.,151
+1684,Judges' and organizers' decisions are final and binding.,151
+1685,Each team can have a maximum of 4 members from the same institution.,152
+1686,All members of the team should individually register for the event,152
+1687,Rockets and launchers must be brought by participants.,152
+1688,Teams must bring their own launch pads and pumps.,152
+1689,Maximum rocket volume: 2.5 litres.,152
+1690,Only water is allowed as the working fluid and propellant.,152
+1691,Electronic components and chemical additives are strictly prohibited.,152
+1692,Multi-stage rockets and parachute/gliding mechanisms are permitted.,152
+1693,Judges' and organizers' decisions are final and binding.,152
+1694,No refunds will be provided after payment.,152
+1695,Each player will get 1 minute 30 seconds to play.,153
+1696,"Once the round begins, the game cannot be paused or stopped.",153
+1697,The player must choose one car before the round begins and cannot change it during gameplay.,153
+1698,Select either Manual or Automatic mode before the round begins; cannot change during the game.,153
+1699,"For every collision, 1 KM will be deducted from the total distance covered.",153
+1700,Final Score = Total Distance Covered - Total Penalty.,153
+1701,Rankings will be decided based on the final recorded score after penalty deductions.,153
+1702,Each participant is allowed one regular attempt.,153
+1703,Participants who wish to improve their score may pay the same registration fee for one additional round; best score counts.,153
+1704,One team member enacts the movie name using only actions and gestures; the other attempts to guess it.,154
+1705,All members of the team should individually register for the event,154
+1706,"Movies will be selected only from English, Kannada and Hindi.",154
+1707,Each team will be timed during their turn.,154
+1708,The team that correctly guesses the movie in the shortest time will be declared the winner.,154
+1709,Only actions and gestures are allowed.,154
+1710,"No spoken words, lip movement or sound effects are permitted.",154
+1711,Writing in the air or showing words/letters through gestures is strictly prohibited.,154
+1712,Use of mobile phones is not allowed.,154
+1713,The final decision made by the organizing committee will be binding.,154
+1714,The event is primarily solo (individual) participation.,155
+1715,Participants must land the aircraft within the marked touchdown zone on the runway.,155
+1716,The vertical speed must be smooth; hard landings are strictly not allowed.,155
+1717,"Participants must maintain proper alignment with the runway, ensure stable control throughout the descent, and bring the aircraft to a complete and safe stop.",155
+1718,Any unsafe or improper aircraft operation may result in immediate disqualification.,155
+1719,Judges' and organizers' decisions will be final and binding in all situations.,155
+1720,Team size: 2–4 players per team (Squad/Duo allowed as per tournament format).,156
+1721,All members of the team should individually register for the event,156
+1722,"Once registered, no changes in team members will be allowed during the tournament.",156
+1723,"Only mobile phones are allowed for gameplay; emulators, tablets and iPads are strictly prohibited.",156
+1724,All players must be physically present at the venue during their matches.,156
+1725,Teams must join the match room on time; late entries will not be accepted.,156
+1726,"Use of cheats, hacks or any unfair means will result in instant disqualification.",156
+1727,"Team names must be clean, decent and respectful.",156
+1728,"No abuse, toxic behaviour or misconduct will be tolerated.",156
+1729,No refunds will be provided after payment.,156
+1730,The event is primarily individual participation.,157
+1731,Participants must be medically fit and free from conditions that may make competitive eating risky.,157
+1732,Drinking water and napkins will be provided.,157
+1733,Performance-enhancing substances are strictly prohibited.,157
+1734,"No tricks to store, hide or manipulate food are allowed.",157
+1735,Vomiting or leaving the table during the challenge may result in disqualification.,157
+1736,"Cheating (hiding food, spitting food, etc.) will lead to immediate removal.",157
+1737,Misconduct or unsafe behaviour is strictly prohibited.,157
+1738,Portion sizes and time limits will be decided by the organizers or sponsors.,157
+1739,Each team must consist minimum of 3 members and maximum upto 5 members.,158
+1740,All members of the team should individually register for the event,158
+1741,No substitutions are allowed once the hunt has officially begun.,158
+1742,"Teams must not move, hide or destroy any clue; violation results in immediate disqualification.",158
+1743,Teams must prove they reached each location by photographing the clue or taking a group selfie at the designated spot.,158
+1744,The hunt is strictly limited to the college campus grounds.,158
+1745,Entering off-limits areas is strictly prohibited.,158
+1746,No outsider assistance is allowed.,158
+1747,Teams must respect the campus environment and must not disrupt ongoing classes or activities.,158
+1748,No refunds will be provided after payment.,158
+1749,The game will be conducted on a designated website provided by the organizers.,159
+1750,The event consists of five rounds.,159
+1751,"In each round, a random Google Street View image will be displayed.",159
+1752,Participants must pin the exact location based on visual observation of the image.,159
+1753,Each round must be completed within the specified time limit.,159
+1754,The event is open for individual participation only.,159
+1755,"Use of mobile phones, external devices, apps or any outside assistance is strictly prohibited.",159
+1756,Any form of misconduct or rule violation will lead to immediate disqualification.,159
+1757,No refunds will be provided after payment.,159
+1758,Each team must consist of exactly 4 players.,160
+1759,All members of the team should individually register for the event,160
+1760,No substitutions are allowed once the match has started.,160
+1761,All team members must be present in the lobby at the designated start time.,160
+1762,"Maps will be randomly selected from Bermuda, Kalahari or Purgatory.",160
+1763,"Use of hacks, scripts or any third-party panels inside the game is strictly prohibited.",160
+1764,Any team found using unfair means will be immediately disqualified without refund or reward.,160
+1765,Players are responsible for their own device performance and internet stability.,160
+1766,Matches will not be restarted due to individual lag or connectivity issues.,160
+1767,No refunds will be provided after payment.,160
+1768,Each team must consist of 2 members.,161
+1769,All members of the team should individually register for the event,161
+1770,Only one final answer per question is allowed.,161
+1771,Correct answer within first 5 seconds: 10 points.,161
+1772,Correct answer within the time limit: 5 points.,161
+1773,Wrong answer: Minus 2 points (if negative marking is applied).,161
+1774,No answer: 0 points.,161
+1775,Fastest correct answer may earn bonus points.,161
+1776,Any form of malpractice will lead to immediate disqualification.,161
+1777,Judges' decisions will be final and binding.,161
+1778,"In case of a tie, a tie-breaker round will be conducted.",161
+1779,No refunds will be provided after payment.,161
+1780,A participant will be given 60 seconds to complete the assigned task.,162
+1781,The event is open for individual participation only.,162
+1782,The timer will begin immediately after the official signal from the event coordinator.,162
+1783,Participants must strictly follow the instructions provided for each challenge.,162
+1784,"Once the challenge begins, participants cannot restart unless permitted by the judges.",162
+1785,"In case of a tie, a tie-breaker round will be conducted under the same time constraints.",162
+1786,"No external assistance (verbal, physical or digital) is permitted during the challenge.",162
+1787,Any violation of rules or use of unfair means will result in immediate disqualification.,162
+1788,No refunds will be provided after payment.,162
+1789,The event is strictly open for individual participation only.,163
+1790,The theme/topic will be revealed at the beginning of the event.,163
+1791,The duration of the reel must be between 30–90 seconds.,163
+1792,All content must be original and created during the competition period.,163
+1793,The reel must be submitted in the specified format and within the given deadline.,163
+1794,Late submissions will not be accepted.,163
+1795,"No copyrighted, offensive or inappropriate content is allowed.",163
+1796,"Pre-made, previously published or AI-generated content is strictly prohibited.",163
+1797,Participants must bring their own mobile device with required editing software installed.,163
+1798,Any form of malpractice will result in immediate disqualification.,163
+1799,No refunds will be provided after payment.,163

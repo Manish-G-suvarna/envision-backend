@@ -1,0 +1,25 @@
+id,duration,evaluation,event_id,format,name,round_number
+169,30 minutes,Top performers qualify for Round 2.,139,"Written test on logical reasoning, analytical skills, basic problem-solving.",Aptitude Test,1
+170,2 minutes per participant,"Clarity and fluency, Confidence and stage presence, Relevance and strength of content.",139,Spontaneous topic given on the spot; must deliver a structured speech without prior preparation.,Effective Public Speaking,2
+171,5–7 minutes per participant,"Creativity and spontaneity, Presence of mind, Ability to handle stress effectively.",139,Participants dress as a chosen character; judges ask situational and character-based questions.,Stress Interview,3
+172,3+1 minutes per participant,"Voice quality, pitch, rhythm and stage confidence.",140,Theme: Free Choice. Any song in any language. Karaoke allowed.,Open Singing Round,1
+173,2+1 minutes,"Expression, creativity and overall performance style.",140,Theme: Emotion & Style. Song must express emotion; facial expressions and gestures allowed.,Expression Round,2
+174,,"Exact output match including formatting, spacing and structure.",144,Analyse the provided output and implement the logic strictly using C.,Reverse Coding – C Programming,1
+175,,"Exact output match including formatting, spacing and structure.",144,Analyse the provided output and implement the logic strictly using Python.,Reverse Coding – Python Programming,2
+176,,Accuracy in identifying valid clues and adherence to system usage guidelines.,145,Teams analyse the provided system to locate hidden digital clues without altering system settings.,System Exploration,1
+177,,Team that successfully completes all levels in the shortest time wins.,145,Teams explore authorized physical locations and solve advanced challenges to progress through levels.,Physical & Advanced Clue Hunt,2
+178,,"Creativity, clarity of concept, and feasibility of execution.",146,Participants receive the theme/product and prepare a storyboard or conceptual plan.,Concept & Planning,1
+179,1–3 minutes,"Originality, storytelling, technical quality and adherence to theme.",146,Teams shoot and edit the promotional video. Duration: strictly 1–3 minutes.,Video Creation,2
+180,1 minute explanation,"Overall impact, clarity of presentation and quality of final output.",146,Final videos screened before judges. Each team may give a brief 1-minute explanation.,Presentation & Screening,3
+181,,"Systematic observation, correct identification of components and proper deconstruction methodology.",149,Observe the given product; physically dismantle hardware or use approved software tools.,Observation & Deconstruction,1
+182,,"Accuracy in identifying the underlying logic, clarity of explanation and technical correctness.",149,Analyse the identified components to determine the logic and functioning of the system.,Analysis & Logic Extraction,2
+183,,Accuracy of spelling and completeness of recalled content.,150,Images and names will be displayed on the screen for a limited duration.,Visual Display Round,1
+184,,Marks awarded based on correctness and proper order of responses.,150,Participants must recall and write answers in the correct sequence as displayed.,Sequence-Based Round,2
+185,,Teams ranked by calculated score.,152,Rockets launched for maximum horizontal distance. Score = Distance × Time-of-Flight × 0.02,Distance Challenge,1
+186,,Points awarded based on landing zone.,152,"Aim at target 65m away. Inner (10m): 20pts, Middle (15m): 15pts, Outer (20m): 10pts.",Target Accuracy,2
+187,,Performance based on speed and successful completion.,157,A soft drink chugging task or a basic speed eating challenge.,Quick Bite Battle,1
+188,,Based on total quantity consumed within the official time limit.,157,A time-based eating round — consume as much food as possible within the allotted time.,Maximum Munch Mode,2
+189,,Correct identification of character and series.,161,Blurred or cropped anime character images displayed. Identify the character name and anime series.,Character Reveal,1
+190,,Correct anime title identification.,161,A scene or symbol is shown. Identify the anime title.,Guess the Anime,2
+191,,Correct character/anime identification.,161,A famous anime dialogue is displayed. Guess the character or the anime.,Dialogue Challenge,3
+192,,Speed and accuracy; double points apply.,161,5–10 quick questions with a shorter time limit. Double points in this round.,Rapid Fire (Final Round),4

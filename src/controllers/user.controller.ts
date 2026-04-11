@@ -25,9 +25,9 @@ export const checkUser = async (req: Request, res: Response) => {
 
 export const onboardUser = async (req: Request, res: Response) => {
     try {
-        const { clerkId, email, name, college, department, usn, phone, gender, degree } = req.body;
+        const { clerkId, email, name, college, department, usn, phone, gender, degree, year } = req.body;
         
-        if (!clerkId || !email || !name || !college || !department || !usn) {
+        if (!clerkId || !email || !name || !college || !department || !usn || !year) {
             return res.status(400).json({ error: 'Missing required onboarding fields' });
         }
 
@@ -43,6 +43,7 @@ export const onboardUser = async (req: Request, res: Response) => {
                 phone,
                 gender,
                 degree,
+                year,
                 is_onboarded: true
             },
             create: {
@@ -55,6 +56,7 @@ export const onboardUser = async (req: Request, res: Response) => {
                 phone,
                 gender,
                 degree,
+                year,
                 is_onboarded: true
             }
         });

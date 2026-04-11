@@ -1,0 +1,26 @@
+id,content,event_id
+460,Time taken,147
+461,Adherence to autonomy rules,147
+462,Accuracy of recall,150
+463,Correct spelling,150
+464,Proper sequence,150
+465,Maximum time to finish without rule violation,151
+466,Balance and control,151
+467,Final Score = Round 1 + Round 2,152
+468,Highest total score wins,152
+469,Maximum distance covered,153
+470,Minimum collisions,153
+471,Final Score = Total Distance - Total Penalty,153
+472,Correct movie identified,154
+473,Shortest time to guess,154
+474,Accuracy of touchdown zone landing,155
+475,Smoothness of descent (vertical speed),155
+476,Runway alignment,155
+477,Stable control,155
+478,Maximum quantity of food consumed within the time limit,157
+479,Speed and cleanliness (minimal spillage as tie-breaker),157
+480,First team to reach the final 'Treasure' location with all clues verified by marshals,158
+481,Accuracy of location pin (proximity to actual location),159
+482,Total cumulative score across 5 rounds,159
+483,Last team standing,160
+484,Placement points,160

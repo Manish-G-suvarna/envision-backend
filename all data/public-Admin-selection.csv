@@ -1,0 +1,14 @@
+id,clerk_user_id,created_at,email,is_active,last_login_at,name,password_hash,updated_at
+1,,2026-04-02T14:49:17.709Z,admin@envision.in,true,2026-04-10T13:57:41.778Z,Envision Admin,$2b$10$GfbWeojvfoODGMNoybDENu7xRxdlahutgolpI2irq2se2vSmCw.bC,2026-04-10T10:57:42.553Z
+4,user_3BiXRnV958jdAPidCWPes00emHu,2026-04-03T16:10:47.367Z,manishgsuvarna44@gmail.com,true,2026-04-03T16:31:41.121Z,Manish G suvarna,$2b$10$7yxW4e8iUQYMIZ2QEFn0Ge8Peg0OPFqkfXOuamMvfSDrWOuZF14Ce,2026-04-03T16:37:07.159Z
+7,user_3C5FFxetTBrEd7PUqg1G345Mbw6,2026-04-08T16:57:04.584Z,manish.admin@envision.dev,true,2026-04-10T16:57:32.020Z,Manish Admin,$2b$10$PJjdrgxxxGWA1GQgeUbnJOdtQArjhYEhWBsXxUteq.wRSTcFha2Cu,2026-04-10T16:57:32.169Z
+8,,2026-04-10T10:48:51.985Z,csdise@envision.in,true,2026-04-10T13:53:20.256Z,CSD & ISE Department Admin,$2b$10$9Q1n0QRvi/KRiRsP3N7Oee7RgWF4FcD3cbpJ79nwHtgdb7wLQmCSW,2026-04-10T10:53:21.008Z
+9,,2026-04-10T10:48:52.477Z,ec@envision.in,true,,EC Department Admin,$2b$10$NKlkypNT6FuQ6JfAD4nfXObkVyPYW8apyKyOLpFNhKATexvZtuLE6,2026-04-10T10:48:52.477Z
+10,,2026-04-10T10:48:52.861Z,marine@envision.in,true,2026-04-10T13:56:27.205Z,Marine Department Admin,$2b$10$VNgOpzje5JmDjEVkUWxKruxBf3qfFwjR89Oq4THxJ3CeSS2YaM8Im,2026-04-10T10:56:27.965Z
+11,,2026-04-10T10:48:53.211Z,cse@envision.in,true,,CSE Department Admin,$2b$10$9n3dKCFVsMYg6VluWgxg3eKEfVKlJwLHo6iJd1LO0Zr8IM.iZt82K,2026-04-10T10:48:53.211Z
+12,,2026-04-10T10:48:53.577Z,aeronautical@envision.in,true,,Aeronautical Department Admin,$2b$10$bt6AGqOoGE2Bf7cf.nVvAOT/nuKO5szj7IK9KVNTKF3Yow9ozf/Oa,2026-04-10T10:48:53.577Z
+13,,2026-04-10T10:48:53.946Z,eee@envision.in,true,,EEE Department Admin,$2b$10$cmfpFvHOrRrt7Olkqy3Awu4n44p69r3nz4ENHyvjoxZooYI6COPLi,2026-04-10T10:48:53.946Z
+14,,2026-04-10T10:48:54.335Z,csbs@envision.in,true,,CSBS Department Admin,$2b$10$lv1UEDdIZ4/px6rn.Jv44eJgMgXfcYYtqzjCmrsxZ3Qo6C2eBQUHO,2026-04-10T10:48:54.335Z
+15,,2026-04-10T10:48:55.405Z,aiml@envision.in,true,,AIML Department Admin,$2b$10$u8kE1KQ8Ga6TXtL3gSNzDOEQWzLknoyzaTMoeDTo2Vg1uEzCX.k8W,2026-04-10T10:48:55.405Z
+16,,2026-04-10T10:48:56.389Z,automobile@envision.in,true,,Auto Mobile Department Admin,$2b$10$On6CUFj1SB1ZB6URcsXMWemDkMqIFX/VBKUOhCn4njviUmVGTGv8S,2026-04-10T10:48:56.389Z
+17,,2026-04-10T10:48:56.753Z,mech@envision.in,true,,Mech Department Admin,$2b$10$RmYvSNhW1mqI5.zae7JsvupHWV27Uxfh.jdzZheEiM0s580zkgWla,2026-04-10T10:48:56.753Z

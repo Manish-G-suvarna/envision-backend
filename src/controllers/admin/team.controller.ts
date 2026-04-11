@@ -72,32 +72,47 @@ export const listTeams = async (req: Request, res: Response) => {
         const total = await prisma.registrationEvent.count({ where: whereClause });
         console.log(`[Teams] Found ${teams.length} teams in query, ${total} total in whereClause`);
 
-        const formattedTeams = teams.map(t => ({
-            id: t.id,
-            teamName: t.team_name,
-            eventName: t.event.event_name,
-            department: t.event.department?.department_name || null,
-            paymentStatus: t.registration.payment_status,
-            utrId: t.registration.utr_id,
-            amount: Number(t.registration.total_amount),
-            leader: t.registration.user.name,
-            leaderEnvId: t.registration.user.env_id,
-            leaderEmail: t.registration.user.email,
-            members: t.members.map(m => ({
-                id: m.id,
-                name: m.name,
-                envId: m.env_id,
-                isLeader: m.is_leader,
-            })),
-            registeredAt: t.registration.created_at,
-        }));
+        const formattedTeams = teams.map(t => {
+            try {
+                if (!t.registration) throw new Error(`Registration missing for RegistrationEvent ${t.id}`);
+                if (!t.registration.user) throw new Error(`User missing for Registration ${t.registration.id}`);
+                if (!t.event) throw new Error(`Event missing for RegistrationEvent ${t.id}`);
+
+                return {
+                    id: t.id,
+                    teamName: t.team_name,
+                    eventName: t.event.event_name,
+                    department: t.event.department?.department_name || null,
+                    paymentStatus: t.registration.payment_status,
+                    utrId: t.registration.utr_id,
+                    amount: Number(t.registration.total_amount),
+                    leader: t.registration.user.name,
+                    leaderEnvId: t.registration.user.env_id,
+                    leaderEmail: t.registration.user.email,
+                    members: (t.members || []).map(m => ({
+                        id: m.id,
+                        name: m.name,
+                        envId: m.env_id,
+                        isLeader: m.is_leader,
+                    })),
+                    registeredAt: t.registration.created_at,
+                };
+            } catch (err: any) {
+                console.error(`[Teams] Error formatting team ${t.id}:`, err.message);
+                return null;
+            }
+        }).filter(t => t !== null);
 
         res.json({
             data: formattedTeams,
             pagination: { page, limit, total, totalPages: Math.ceil(total / limit) },
         });
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error listing teams:', error);
-        res.status(500).json({ message: 'Error listing teams' });
+        res.status(500).json({ 
+            message: 'Error listing teams',
+            error: error.message,
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined 
+        });
     }
 };

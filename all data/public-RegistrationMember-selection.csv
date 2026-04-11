@@ -1,0 +1,29 @@
+id,env_id,is_leader,name,registration_event_id,user_id
+27,ENV-000079,true,Manish G suvarna,25,79
+28,ENV-000079,true,Manish G suvarna,26,79
+29,ENV-000083,true,Pundlik Marathe,27,83
+30,ENV-000109,true,Sarvesh Marathe,28,109
+31,ENV-000157,true,BHAVISH,29,157
+32,ENV-000154,true,Mukta Bhat,30,154
+33,ENV-000016,true,Manish G suvarna,31,16
+34,ENV-000016,false,Manish G suvarna,30,16
+35,ENV-000109,false,Sarvesh Marathe,27,109
+36,ENV-000030,true,Gaurav shetty Gaurav shetty,32,30
+37,ENV-000030,true,Gaurav shetty Gaurav shetty,33,30
+38,ENV-000103,true,GOWRAV GOWRAV,34,103
+39,ENV-000103,true,GOWRAV GOWRAV,35,103
+40,ENV-000160,true, Manohara,36,160
+41,ENV-000111,true,Mayan sheik,37,111
+42,ENV-000166,true,Adnan Mohammed,38,166
+43,ENV-000167,true,Hassan Nisham,39,167
+44,ENV-000111,false,Mayan sheik,39,111
+45,ENV-000170,true, Muhammad Musthafa ,40,170
+46,ENV-000170,false, Muhammad Musthafa ,38,170
+47,ENV-000176,true,Ayshatul Faahiza,41,176
+48,ENV-000164,true,Navaneeth A N,42,164
+49,ENV-000180,true,Pruthvi Shetty,43,180
+50,ENV-000180,false,Pruthvi Shetty,42,180
+51,ENV-000195,true,Varshashree bhat,44,195
+52,ENV-000159,true,Manjunath Achari,45,159
+53,ENV-000156,false,Shay_ Pagi_,45,156
+54,ENV-000156,true,Shay_ Pagi_,46,156
