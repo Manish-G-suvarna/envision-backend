@@ -15,6 +15,7 @@ import adminDashboardRoutes from './routes/admin/dashboard.routes';
 import adminParticipantRoutes from './routes/admin/participant.routes';
 import adminEventRoutes from './routes/admin/event.routes';
 import adminManageRoutes from './routes/admin/admin.routes';
+import adminTeamRoutes from './routes/admin/team.routes';
 
 const app = express();
 
@@ -59,6 +60,7 @@ app.use('/api/v1/admin/dashboard', adminDashboardRoutes);
 app.use('/api/v1/admin/participants', adminParticipantRoutes);
 app.use('/api/v1/admin/events', adminEventRoutes);
 app.use('/api/v1/admin/manage', adminManageRoutes);
+app.use('/api/v1/admin/teams', adminTeamRoutes);
 
 // Global Error Handler
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
