@@ -568,6 +568,15 @@ export const getUserByEnvId = async (req: Request, res: Response) => {
                 env_id: true,
                 email: true,
                 college: true,
+                registrations: {
+                    select: {
+                        events: {
+                            select: {
+                                event_id: true,
+                            }
+                        }
+                    }
+                }
             },
         });
 
